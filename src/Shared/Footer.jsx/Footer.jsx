@@ -48,7 +48,7 @@ const socials = [
             <p className='text-primary-white'>Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.</p>
            
          </div>
-          <div className='border border-dashed border-[#03464D] w-[85%] mx-auto'>
+          <div className='border-b border-dashed border-[#03464D] w-[85%] mx-auto'>
 
             </div>
          <ul className="flex items-center gap-6 mt-3 justify-center py-8">
@@ -60,7 +60,7 @@ const socials = [
                      ))
                   }
                </ul>
-               <div className='border border-dashed border-[#03464D] w-[85%] mx-auto'></div>
+               <div className='border-b border-dashed border-[#03464D] w-[85%] mx-auto'></div>
          <div className='pt-10 pb-20 list-none flex justify-center items-center gap-4'>
                {
                   socials.map((social) => (
