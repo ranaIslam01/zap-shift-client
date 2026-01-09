@@ -29,12 +29,12 @@ const Navbar = () => {
       </ul>
       <div className="flex items-center mt-3 gap-4">
         <div>
-          <button className="text-primary-black cursor-pointer  px-5 rounded-2xl py-2 font-medium text-lg border border-primary-white">Sign In</button>
+          <Link to ="/login" className="text-primary-black cursor-pointer  px-5 rounded-2xl py-2 font-medium text-lg border border-primary-white">Sign In</Link>
         </div>
-        <div className="flex items-center">
+        <Link  to="/register" className="flex items-center">
           <button className="text-primary-black bg-primary-green cursor-pointer px-5 rounded-2xl py-2 font-medium text-lg border border-primary-white">Sign Up</button>
           <img className="h-12" src={CornarIcon} alt="cornar arrow" />
-        </div>
+        </Link>
       </div>
     </div>
   );
