@@ -16,10 +16,10 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const MapComponent = () => {
-  const position = [23.6850, 90.3563]; // বাংলাদেশ
+  const position = [23.6850, 90.3563]; 
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-200 h-[300px] sm:h-[400px] md:h-[500px] z-0">
+    <div className="rounded-2xl overflow-hidden border border-gray-200 h-75 sm:h-100 md:h-125 z-0">
       <MapContainer 
         center={position} 
         zoom={7} 

@@ -19,7 +19,7 @@ const MapComponent = () => {
   const position = [23.6850, 90.3563]; // বাংলাদেশের সেন্টার
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-200 h-[350px] md:h-[500px] z-0 shadow-inner">
+    <div className="rounded-2xl overflow-hidden border border-gray-200 h-87.5 md:h-125 z-0 shadow-inner">
       <MapContainer 
         center={position} 
         zoom={7} 

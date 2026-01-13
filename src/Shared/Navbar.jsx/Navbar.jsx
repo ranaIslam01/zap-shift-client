@@ -111,7 +111,7 @@ const Navbar = () => {
       {/* Mobile Sidebar/Dropdown */}
       <div
         className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-[500px] border-t" : "max-h-0"
+          isOpen ? "max-h-125 border-t" : "max-h-0"
         }`}
       >
         <ul className="flex flex-col p-6 gap-4">

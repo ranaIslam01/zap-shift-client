@@ -22,12 +22,12 @@ const Hero = () => {
           </p>
           <div className="flex ">
             <div className="flex cursor-pointer">
-              <button className="text-primary-black bg-primary-green cursor-pointer px-5 rounded-2xl py-2 font-medium text-lg border border-[#DADADA]">
+              <button className="text-primary-black bg-primary-green cursor-pointer px-5 rounded-2xl py-2 font-medium text-lg border border-primary-white">
                 Track Your Parcel
               </button>
               <img className="h-12" src={CornarIcon} alt="cornar arrow" />
             </div>
-            <button className="text-primary-black cursor-pointer  px-5 rounded-2xl py-2 font-medium text-lg border border-[#DADADA] ml-4">
+            <button className="text-primary-black cursor-pointer  px-5 rounded-2xl py-2 font-medium text-lg border border-primary-white ml-4">
               Be A Rider
             </button>
           </div>
