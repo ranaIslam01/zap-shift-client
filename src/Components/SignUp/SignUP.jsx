@@ -2,19 +2,80 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import authImage from '../../assets/authImage.png'
 import { useForm } from 'react-hook-form';
+import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const SignUP = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const {handleSubmit, register, formState: {errors}} = useForm();
+  const {createUser,signUpGoogle} = useAuth()
 
-  const onSubmit = data => {
-    console.log(data);
-  }
+  const signUpWithGoogle = () => {
+  signUpGoogle()
+    .then((result) => {
+      console.log(result.user);
+      Swal.fire({
+        title: "Success!",
+        text: "Google Sign-In successful.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+      });
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: "Could not sign in with Google.",
+        icon: "error",
+        confirmButtonText: "Close"
+      });
+    });
+};
+ 
+
+const onSubmit = (data) => {
+  console.log(data);
+
+  createUser(data.email, data.password)
+    .then((result) => {
+      const user = result.user;
+      console.log("Registered User:", user);
+
+      // Success Alert
+      Swal.fire({
+        title: "Success!",
+        text: "Your account has been created successfully.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Okay"
+      });
+      
+      // Optionally: reset() the form here if you are using react-hook-form
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error Code:", errorCode);
+
+      // Error Alert
+      Swal.fire({
+        title: "Registration Failed",
+        text: errorMessage, // Displays the Firebase error message in English
+        icon: "error",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Try Again"
+      });
+    }); 
+};
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
@@ -39,7 +100,7 @@ const SignUP = () => {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
               <input
-                type="tex"
+                type="text"
                 {...register('text')}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                 placeholder="Enter your name"
@@ -77,8 +138,13 @@ const SignUP = () => {
                   
                   />
                   {
-                    errors.password?.type === 'required' && <p>
+                    errors.password?.type === 'required' && <p className='text bg-red-500'>
                       Password is required
+                    </p>
+                  }
+                  {
+                    errors.password?.type === 'minLength' && <p className='text-red-500'>
+                       password must be 6 characters or longer
                     </p>
                   }
                 <button
@@ -120,7 +186,7 @@ const SignUP = () => {
           </div>
 
           {/* Google Register Button */}
-          <button className="w-full flex items-center justify-center gap-2 bg-[#F0F2F5] hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition duration-300">
+          <button onClick={signUpWithGoogle} className="w-full flex items-center justify-center gap-2 bg-[#F0F2F5] hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-lg transition duration-300">
             <img 
               src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
               alt="Google" 

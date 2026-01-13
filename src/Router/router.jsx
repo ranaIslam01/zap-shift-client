@@ -8,6 +8,7 @@ import Pricing from "../Pages/Pricing/Pricng";
 import About from "../Pages/About/About";
 import Login from "../Components/LogIn/LogIn";
 import SignUP from "../Components/SignUp/SignUP";
+import Coverage from "../Pages/Coverage/Coverage";
 
 export const router = createBrowserRouter([
    {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
          {
             index: true,
             Component: Home,
+         },
+         {
+            path: "coverage",
+            Component: Coverage,
          },
          {
             path:"/be-a-rider",
