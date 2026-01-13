@@ -1,40 +1,75 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import React, { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
+import MapComponent from '../../Components/MapComponent/MapComponent';
 
-// Leaflet মার্কার আইকন ফিক্স
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+const Coverage = () => {
+  const [serviceCenters, setServiceCenters] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // সার্চের জন্য স্টেট
 
-let DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41]
-});
-L.Marker.prototype.options.icon = DefaultIcon;
+  useEffect(() => {
+    fetch('serviceCenter.json')
+      .then(res => res.json())
+      .then(data => setServiceCenters(data));
+  }, []);
 
-const MapComponent = () => {
-  const position = [23.6850, 90.3563]; 
+  // সার্চ অনুযায়ী ফিল্টার করা ডাটা
+  const filteredCenters = serviceCenters.filter(center =>
+    center.district.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-gray-200 h-75 sm:h-100 md:h-125 z-0">
-      <MapContainer 
-        center={position} 
-        zoom={7} 
-        scrollWheelZoom={false} 
-        className="h-full w-full"
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[23.8103, 90.4125]}>
-          <Popup>Dhaka Office</Popup>
-        </Marker>
-      </MapContainer>
+    <div className="bg-gray-50 min-h-screen p-4 md:p-10 flex justify-center items-start">
+      <div className="bg-white rounded-4xl shadow-sm w-full max-w-7xl border border-gray-100 p-6 md:p-16">
+        
+        {/* Header Section */}
+        <div className="mb-10">
+          <h2 className="text-2xl md:text-4xl font-bold text-primary-black mb-8 leading-tight">
+            We are available in 64 districts
+          </h2>
+          
+          {/* Responsive Search Bar Container */}
+          <div className="w-full max-w-md">
+            <div className="relative flex flex-col sm:flex-row gap-3">
+              <div className="relative grow">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)} // টাইপ করলে স্টেট আপডেট হবে
+                  className="block w-full pl-12 pr-4 py-4 bg-[#F3F5F7] border-none rounded-full focus:ring-2 focus:ring-[#C1E066] outline-none text-gray-700"
+                  placeholder="Search by district (e.g. Dhaka)"
+                />
+                {/* Desktop Search Button */}
+                <button className="hidden sm:block absolute right-2 top-1.5 bottom-1.5 px-6 bg-[#C1E066] hover:bg-[#b0d152] text-[#0D3B3F] font-bold rounded-full transition-all">
+                  Search
+                </button>
+              </div>
+
+              {/* Mobile Search Button */}
+              <button className="sm:hidden w-full py-4 bg-[#C1E066] text-[#0D3B3F] font-bold rounded-full shadow-md active:scale-95 transition-transform">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr className="border-gray-100 my-10" />
+
+        {/* Map Section */}
+        <div className="space-y-6">
+          <h3 className="text-xl md:text-2xl font-bold text-[#0D3B3F]">
+            We deliver almost all over Bangladesh
+          </h3>
+          
+          {/* ফিল্টার করা লিস্ট ম্যাপে পাঠানো হচ্ছে */}
+          <MapComponent serviceCenters={filteredCenters} />
+        </div>
+
+      </div>
     </div>
   );
 };
 
-export default MapComponent;
+export default Coverage;

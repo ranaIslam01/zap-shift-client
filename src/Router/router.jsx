@@ -9,6 +9,7 @@ import About from "../Pages/About/About";
 import Login from "../Components/LogIn/LogIn";
 import SignUP from "../Components/SignUp/SignUP";
 import Coverage from "../Pages/Coverage/Coverage";
+import SendParcelForm from "../Pages/SendParcelForm/SendParcelForm";
 
 export const router = createBrowserRouter([
    {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
          {
             path: "coverage",
             Component: Coverage,
+         },
+         {
+            path: "/sendpercelform",
+            Component: SendParcelForm,
          },
          {
             path:"/be-a-rider",

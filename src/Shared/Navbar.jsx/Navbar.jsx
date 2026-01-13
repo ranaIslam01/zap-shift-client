@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Menu, X } from "lucide-react"; // আইকনের জন্য lucide-react ব্যবহার করা হয়েছে
+import { Menu, X } from "lucide-react";
 import CornarIcon from "../../assets/cornar-arrow.png";
 import Logo from "../../assets/logo.png";
 import useAuth from "../../hooks/useAuth";
@@ -17,6 +17,7 @@ const Navbar = () => {
     { id: 3, name: "About Us", path: "/about" },
     { id: 4, name: "Pricing", path: "/pricing" },
     { id: 5, name: "Be a Rider", path: "/be-a-rider" },
+    { id: 6, name: "Send Parcel", path: "/sendpercelform" },
   ];
 
   const handleLogOut = () => {
