@@ -1,7 +1,15 @@
 import React from 'react';
 import authImage from '../../assets/authImage.png'
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
+
+  const {register, handleSubmit, formState: {errors}} = useForm();
+
+  const onSubmit = data => {
+    console.log(data);
+  }
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
       {/* বাম পাশ: লগইন ফর্ম */}
@@ -10,7 +18,7 @@ const Login = () => {
           <h1 className="text-4xl font-bold text-main-black mb-2">Welcome Back</h1>
           <p className="text-primary-black  mb-8">Login with ZapShift</p>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Field */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -18,6 +26,7 @@ const Login = () => {
               </label>
               <input
                 type="email"
+                {...register('email')}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                 placeholder="Enter your email"
               />
@@ -30,9 +39,24 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                {...register('password',{
+                  required: true, 
+                  minLength: 6,
+                })}
+                
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                 placeholder="Password"
               />
+              {
+                errors.password?.type === 'required' && <p className='text-red-500'>
+                  password is required
+                </p>
+              }
+              {
+                errors.password?.type === 'minLength' && <p className='text-red-500'>
+                  password must be 6 characters or longer
+                </p>
+              }
             </div>
 
             <div className="text-left">

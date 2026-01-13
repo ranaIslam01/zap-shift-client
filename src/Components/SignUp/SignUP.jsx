@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import authImage from '../../assets/authImage.png'
+import { useForm } from 'react-hook-form';
 
 const SignUP = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -8,6 +9,12 @@ const SignUP = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const {handleSubmit, register, formState: {errors}} = useForm();
+
+  const onSubmit = data => {
+    console.log(data);
+  }
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
@@ -27,12 +34,13 @@ const SignUP = () => {
             </div>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Name Field */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
               <input
-                type="text"
+                type="tex"
+                {...register('text')}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                 placeholder="Enter your name"
               />
@@ -43,9 +51,15 @@ const SignUP = () => {
               <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
               <input
                 type="email"
+                {...register('email', {required: true})}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                 placeholder="Email"
               />
+              {
+                errors.email?.type === 'required' && <p>
+                  Email is required
+                </p>
+              }
             </div>
 
             {/* Password Field with View/Hide Option */}
@@ -54,9 +68,19 @@ const SignUP = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
+                  {...register('password', {
+                    required: true, 
+                    minLength: 6,
+                  })}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
                   placeholder="Password"
-                />
+                  
+                  />
+                  {
+                    errors.password?.type === 'required' && <p>
+                      Password is required
+                    </p>
+                  }
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
