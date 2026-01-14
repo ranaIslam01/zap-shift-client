@@ -53,7 +53,7 @@ const Navbar = () => {
     <nav className="relative bg-white z-50 shadow-sm">
       <div className="flex justify-between items-center py-4 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-30">
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0">
+        <Link to="/" className="shrink-0">
           <img
             className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto"
             src={Logo}

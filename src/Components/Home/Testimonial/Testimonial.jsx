@@ -36,7 +36,7 @@ const Testimonial = () => {
             <div className="border-b border-primary-black border-dashed w-full"></div>
             
             <div className="flex items-center gap-3 sm:gap-4">
-              <img src={download} alt="user" className="w-10 sm:w-11 md:w-12 h-10 sm:h-11 md:h-12 rounded-full object-cover bg-black flex-shrink-0" />
+              <img src={download} alt="user" className="w-10 sm:w-11 md:w-12 h-10 sm:h-11 md:h-12 rounded-full object-cover bg-black shrink-0" />
               <div className="flex flex-col min-w-0">
                 <h2 className="font-bold text-primary-black text-sm sm:text-base md:text-base truncate">{testimonial.name}</h2>
                 <h3 className="text-xs sm:text-sm text-gray-500 truncate">{testimonial.role}</h3>

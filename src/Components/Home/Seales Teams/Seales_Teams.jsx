@@ -61,7 +61,7 @@ const Seales_Teams = () => {
             key={feature.id}
             className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 items-start md:items-center"
           >
-            <div className="flex-shrink-0 w-full md:w-auto md:min-w-[250px]">
+            <div className="shrink-0 w-full md:w-auto md:min-w-62.5">
               <img
                 src={feature.image}
                 alt={feature.title}

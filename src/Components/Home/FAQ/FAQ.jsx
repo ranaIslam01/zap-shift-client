@@ -56,7 +56,7 @@ const FAQ = () => {
               <span className="font-semibold text-[#003d3d] text-sm sm:text-base md:text-lg leading-snug pr-4">
                 {faq.question}
               </span>
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 {openIndex === index ? (
                   <ChevronUp className="text-[#003d3d] w-5 h-5 sm:w-6 sm:h-6" />
                 ) : (
