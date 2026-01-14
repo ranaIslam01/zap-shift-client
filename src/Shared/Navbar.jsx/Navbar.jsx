@@ -9,7 +9,7 @@ import useAuth from "../../hooks/useAuth";
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // মোবাইল মেনু স্টেট
+  const [isOpen, setIsOpen] = useState(false);
 
   const navbarItems = [
     { id: 1, name: "Services", path: "/services" },
@@ -50,23 +50,27 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative bg-white z-50">
-      <div className="flex justify-between items-center py-6 px-6 md:px-20 lg:px-30">
+    <nav className="relative bg-white z-50 shadow-sm">
+      <div className="flex justify-between items-center py-4 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-30">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <img className="h-12 md:h-16" src={Logo} alt="logo" />
+        <Link to="/" className="flex-shrink-0">
+          <img
+            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto"
+            src={Logo}
+            alt="logo"
+          />
         </Link>
 
         {/* Desktop Navigation */}
-        <ul className="hidden lg:flex items-center gap-6">
+        <ul className="hidden lg:flex items-center gap-2 xl:gap-6">
           {navbarItems.map((nav) => (
             <li key={nav.id}>
               <NavLink
                 to={nav.path}
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-primary-green text-secondary-green px-4 py-2 rounded-full font-medium"
-                    : "text-primary-black transition-colors"
+                    ? "bg-primary-green text-secondary-green px-3 xl:px-4 py-2 rounded-full font-medium text-sm xl:text-base transition-all"
+                    : "text-primary-black hover:text-secondary-green transition-colors text-sm xl:text-base font-medium"
                 }
               >
                 {nav.name}
@@ -75,26 +79,40 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Desktop Buttons & Mobile Toggle */}
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-4">
+        {/* Desktop & Tablet Buttons & Mobile Toggle */}
+        <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
+          <div className="hidden md:flex items-center gap-2 lg:gap-4">
             {user ? (
-              <div onClick={handleLogOut} className="flex items-center cursor-pointer">
-                <button className="text-primary-black bg-primary-green px-5 rounded-2xl py-2 font-medium border border-primary-white">
+              <div
+                onClick={handleLogOut}
+                className="flex items-center cursor-pointer hover:opacity-80 transition"
+              >
+                <button className="text-primary-black bg-primary-green px-3 lg:px-5 py-2 rounded-xl lg:rounded-2xl font-medium text-sm lg:text-base border border-primary-white hover:bg-opacity-90 transition">
                   Log Out
                 </button>
-                <img className="h-10" src={CornarIcon} alt="arrow" />
+                <img
+                  className="h-8 lg:h-10 hidden lg:block"
+                  src={CornarIcon}
+                  alt="arrow"
+                />
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-primary-black font-medium">
+                <Link
+                  to="/login"
+                  className="text-primary-black font-medium text-sm lg:text-base hover:text-secondary-green transition"
+                >
                   Sign In
                 </Link>
                 <Link to="/register" className="flex items-center">
-                  <button className="text-primary-black bg-primary-green px-5 rounded-2xl py-2 font-medium border border-primary-white">
+                  <button className="text-primary-black bg-primary-green px-3 lg:px-5 py-2 rounded-xl lg:rounded-2xl font-medium text-sm lg:text-base border border-primary-white hover:bg-opacity-90 transition">
                     Sign Up
                   </button>
-                  <img className="h-10" src={CornarIcon} alt="arrow" />
+                  <img
+                    className="h-8 lg:h-10 hidden lg:block"
+                    src={CornarIcon}
+                    alt="arrow"
+                  />
                 </Link>
               </>
             )}
@@ -102,50 +120,62 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-primary-black"
+            className="md:hidden p-2 text-primary-black hover:bg-gray-100 rounded-lg transition"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Sidebar/Dropdown */}
       <div
-        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-125 border-t" : "max-h-0"
+        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-xl transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? "max-h-screen border-t" : "max-h-0"
         }`}
       >
-        <ul className="flex flex-col p-6 gap-4">
+        <ul className="flex flex-col p-4 gap-2 sm:p-6 sm:gap-4">
           {navbarItems.map((nav) => (
             <li key={nav.id} onClick={() => setIsOpen(false)}>
               <NavLink
                 to={nav.path}
-                className="block text-lg font-medium text-primary-black"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block text-base sm:text-lg font-bold text-primary-black bg-primary-green px-4 py-2 rounded-lg"
+                    : "block text-base sm:text-lg font-medium text-primary-black hover:bg-gray-100 px-4 py-2 rounded-lg transition"
+                }
               >
                 {nav.name}
               </NavLink>
             </li>
           ))}
-          <hr />
+          <hr className="my-2 sm:my-4" />
           {/* Mobile Auth Buttons */}
-          <div className="flex flex-col gap-4 mt-2">
+          <div className="flex flex-col gap-3 mt-2 sm:mt-4">
             {user ? (
               <button
-                onClick={() => { handleLogOut(); setIsOpen(false); }}
-                className="w-full text-center bg-primary-green py-3 rounded-xl font-bold"
+                onClick={() => {
+                  handleLogOut();
+                  setIsOpen(false);
+                }}
+                className="w-full text-center bg-primary-green py-3 rounded-xl font-bold text-base sm:text-lg hover:bg-opacity-90 transition"
               >
                 Log Out
               </button>
             ) : (
               <>
-                <Link to="/login" onClick={() => setIsOpen(false)} className="text-center font-bold">
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="text-center font-bold text-base sm:text-lg text-primary-black hover:bg-gray-100 py-2 rounded-lg transition"
+                >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setIsOpen(false)}
-                  className="w-full text-center bg-primary-green py-3 rounded-xl font-bold"
+                  className="w-full text-center bg-primary-green py-3 rounded-xl font-bold text-base sm:text-lg hover:bg-opacity-90 transition"
                 >
                   Sign Up
                 </Link>

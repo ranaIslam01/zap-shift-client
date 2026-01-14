@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import authImage from '../../assets/authImage.png';
-import { useForm } from 'react-hook-form';
-import useAuth from '../../hooks/useAuth';
-import { useNavigate, Link } from 'react-router-dom'; // Link এবং useNavigate যোগ করা হয়েছে
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // আইকন ইমপোর্ট
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import authImage from "../../assets/authImage.png";
+import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const {signUpGoogle} =useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { signUpGoogle } = useAuth();
   const { signInUser } = useAuth();
   const navigate = useNavigate();
 
-  // signIn Google 
-    const signUpWithGoogle = () => {
+  const signUpWithGoogle = () => {
     signUpGoogle()
       .then((result) => {
         console.log(result.user);
@@ -23,7 +26,7 @@ const Login = () => {
           text: "Google Sign-In successful.",
           icon: "success",
           timer: 1500,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
         navigate("/");
       })
@@ -33,40 +36,33 @@ const Login = () => {
           title: "Error!",
           text: "Could not sign in with Google.",
           icon: "error",
-          confirmButtonText: "Close"
+          confirmButtonText: "Close",
         });
       });
   };
 
-  // from user 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     signInUser(data.email, data.password)
       .then((result) => {
         console.log("Logged In User:", result.user);
-        
-        // Success Alert
         Swal.fire({
           title: "Success!",
           text: "Login successful. Welcome back!",
           icon: "success",
           timer: 1500,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
-
-        // হোম পেজে নেভিগেট করা
         setTimeout(() => {
           navigate("/");
         }, 1500);
       })
       .catch((error) => {
         console.error("Login Error:", error.message);
-        
-        // Error Alert
         Swal.fire({
           title: "Error!",
           text: "Invalid email or password. Please try again.",
           icon: "error",
-          confirmButtonText: "Close"
+          confirmButtonText: "Close",
         });
       });
   };
@@ -74,12 +70,19 @@ const Login = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
       {/* Left Side: Login Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12">
+      <div className="w-full md:w-1/2 flex flex-col justify-center px-4 sm:px-6 md:px-8 lg:px-24 py-8 sm:py-10 md:py-12">
         <div className="max-w-md w-full mx-auto">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-600 mb-8">Login with ZapShift</p>
+          <h1 className="text-3xl sm:text-4xl md:text-4xl font-bold text-gray-900 mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600 mb-6 sm:mb-8 text-base sm:text-lg">
+            Login with ZapShift
+          </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 sm:space-y-6"
+          >
             {/* Email Field */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -87,99 +90,86 @@ const Login = () => {
               </label>
               <input
                 type="email"
-                {...register('email', { required: "Email is required" })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
+                {...register("email", { required: "Email is required" })}
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition text-sm sm:text-base"
                 placeholder="Enter your email"
               />
-              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
-            {/* Password Field with Show/Hide toggle */}
+            {/* Password Field */}
             <div className="relative">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Password
               </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  {...register('password', {
-                    required: "Password is required",
-                    minLength: { value: 6, message: "Password must be at least 6 characters" }
-                  })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition"
-                  placeholder="Password"
-                />
-                {/* Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
-                >
-                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", { required: "Password is required" })}
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-400 focus:border-transparent outline-none transition text-sm sm:text-base pr-10"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 sm:right-4 top-10 sm:top-11 text-gray-500 hover:text-gray-700 transition"
+              >
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
-            <div className="text-left">
-              <a href="#" className="text-sm text-gray-500 hover:underline">
-                Forget Password?
-              </a>
-            </div>
-
-            {/* Login Button */}
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#D4F07D] hover:bg-[#c2e065] text-gray-800 font-bold py-3 rounded-lg transition duration-300 shadow-sm"
+              className="w-full bg-primary-green text-primary-black font-bold py-2 sm:py-3 rounded-lg hover:bg-opacity-90 transition text-base sm:text-lg mt-6 sm:mt-8"
             >
-              Login
+              Sign In
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Don't have any account?{' '}
-              <Link to="/register" className="text-[#A3D139] font-bold hover:underline">
-                Register
-              </Link>
-            </p>
-          </div>
-
           {/* Divider */}
-          <div className="relative my-8">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or</span>
-            </div>
+          <div className="flex items-center my-6 sm:my-8">
+            <div className="grow border-b border-gray-300"></div>
+            <span className="px-3 text-gray-500 text-sm">OR</span>
+            <div className="grow border-b border-gray-300"></div>
           </div>
 
-          {/* Google Login Button */}
-          <button 
-          onClick={signUpWithGoogle}
-            type="button"
-            className="w-full flex items-center justify-center gap-2 bg-[#F0F2F5] hover:bg-gray-200 text-gray-700 font-medium py-3 rounded-lg transition duration-300"
+          {/* Google Sign In */}
+          <button
+            onClick={signUpWithGoogle}
+            className="w-full border-2 border-gray-300 py-2 sm:py-3 rounded-lg font-semibold hover:bg-gray-100 transition text-sm sm:text-base"
           >
-            <img 
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
-              alt="Google" 
-              className="w-5 h-5"
-            />
-            Login with google
+            Continue with Google
           </button>
+
+          {/* Footer */}
+          <p className="text-center text-gray-600 mt-6 sm:mt-8 text-sm sm:text-base">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-primary-green font-semibold hover:underline"
+            >
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
 
-      {/* Right Side: Illustration */}
-      <div className="hidden md:flex w-1/2 bg-[#F9FFF0] items-center justify-center p-12">
-        <div className="relative w-full max-w-lg">
-          <img 
-            src={authImage}
-            alt="Delivery Illustration" 
-            className="w-full h-auto rounded-3xl shadow-lg"
-          />
-        </div>
+      {/* Right Side: Image */}
+      <div className="hidden md:block w-1/2">
+        <img
+          src={authImage}
+          alt="Login"
+          className="w-full h-full object-cover"
+        />
       </div>
     </div>
   );
