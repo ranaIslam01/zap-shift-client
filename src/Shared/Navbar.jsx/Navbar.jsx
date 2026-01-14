@@ -18,6 +18,7 @@ const Navbar = () => {
     { id: 4, name: "Pricing", path: "/pricing" },
     { id: 5, name: "Be a Rider", path: "/be-a-rider" },
     { id: 6, name: "Send Parcel", path: "/sendpercelform" },
+    { id: 7, name: "Dashboard", path: "/dashboard" },
   ];
 
   const handleLogOut = () => {
@@ -65,7 +66,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   isActive
                     ? "bg-primary-green text-secondary-green px-4 py-2 rounded-full font-medium"
-                    : "text-primary-black hover:text-primary-green transition-colors"
+                    : "text-primary-black transition-colors"
                 }
               >
                 {nav.name}

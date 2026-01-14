@@ -10,6 +10,10 @@ import Login from "../Components/LogIn/LogIn";
 import SignUP from "../Components/SignUp/SignUP";
 import Coverage from "../Pages/Coverage/Coverage";
 import SendParcelForm from "../Pages/SendParcelForm/SendParcelForm";
+import Dashboard from "../Pages/DashBoard/DashBorad";
+import DashboardLayout from "../Layout/DashboardLayout";
+import MyOrders from "../Components/Dashborad/MyOrders";
+import MyProfile from "../Components/Dashborad/MyProfile";
 
 export const router = createBrowserRouter([
    {
@@ -52,6 +56,24 @@ export const router = createBrowserRouter([
          {
             path: "register",
             Component: SignUP,
+         }
+      ]
+   },
+   {
+      path: "/dashboard",
+      element: <DashboardLayout></DashboardLayout>,
+      children: [
+         {
+            index: true,
+            Component: Dashboard
+         },
+         {
+            path: "/dashboard/orders",
+            Component: MyOrders,
+         },
+         {
+            path: "/dashboard/profile",
+            Component: MyProfile,
          }
       ]
    }

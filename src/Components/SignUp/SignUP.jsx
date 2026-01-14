@@ -117,7 +117,7 @@ const onSubmit = (data) => {
                 placeholder="Email"
               />
               {
-                errors.email?.type === 'required' && <p>
+                errors.email?.type === 'required' && <p className='text-red-500'>
                   Email is required
                 </p>
               }
@@ -138,7 +138,7 @@ const onSubmit = (data) => {
                   
                   />
                   {
-                    errors.password?.type === 'required' && <p className='text bg-red-500'>
+                    errors.password?.type === 'required' && <p className='text-red-500'>
                       Password is required
                     </p>
                   }
