@@ -13,7 +13,7 @@ import eight from "../../assets/agents/8.png";
 const HowEarning = () => {
   return (
     <div>
-      <div className="max-w-2xl mx-auto space-y-5 py-16">
+      <div className="max-w-2xl md:mx-auto mx-10 space-y-5 py-16">
         <img src={tinyDeliveryman} alt="tinydeliveryman" />
         <h1 className="text-4xl text-primary-black font-bold">
           How Earning Works
@@ -31,64 +31,64 @@ const HowEarning = () => {
         </div>
       </div>
 
-      <div className="flex flex-col px-30 py-10">
+      <div className="flex flex-col lg:px-30 px-10 lg:py-10 py-6">
         <h1 className="text-4xl font-bold text-primary-black text-center">
           Our Top Agents
         </h1>
-        <div className="grid gap-8 md:grid-cols-4 grid-cols-1  py-20">
+        <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 py-10  lg:py-20">
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={first} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={first} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={second} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={second} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={third} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={third} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={four} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={four} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={five} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={five} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={six} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={six} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={seven} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={seven} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>
 
           {/* 1 */}
           <div className="space-y-1">
-            <img className="rounded-2xl w-70 mb-4" src={eight} alt="img" />
+            <img className="rounded-2xl w-70 h-auto mb-4" src={eight} alt="img" />
             <h1 className="text-xl font-semibold text-primary-black">Devon Lane</h1>
             <h2 className="text-secondary-black">Naperville</h2>
           </div>

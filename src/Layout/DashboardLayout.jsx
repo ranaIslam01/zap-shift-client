@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Outlet, Link, NavLink } from 'react-router';
 import { Menu, X, LayoutDashboard, ShoppingBag, User, LogOut, Home } from 'lucide-react';
+import zapshiftLogo from '../assets/logo.png';
 
 const DashboardLayout = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // নেভিগেশন আইটেমগুলোর অবজেক্ট (Map করার জন্য)
     const navItems = [
         { name: 'Home', path: '/', icon: <Home size={20} /> },
         { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={20} /> },
-        { name: 'My Orders', path: '/dashboard/orders', icon: <ShoppingBag size={20} /> },
+        { name: 'My Parcel', path: '/dashboard/parcel', icon: <ShoppingBag size={20} /> },
         { name: 'Profile', path: '/dashboard/profile', icon: <User size={20} /> },
     ];
 
@@ -24,7 +24,7 @@ const DashboardLayout = () => {
             <aside className="w-64 bg-white border-r border-primary-white hidden lg:flex flex-col">
                 <div className="p-6">
                     <Link to="/" className="text-2xl font-extrabold text-primary-black tracking-tight">
-                        Zap<span className="text-secondary-green">Shift</span>
+                        <img src={zapshiftLogo} className='lg:w-34 md:w-30 h-auto' alt="logo" />
                     </Link>
                 </div>
                 
@@ -33,7 +33,7 @@ const DashboardLayout = () => {
                         <NavLink
                             key={item.path}
                             to={item.path}
-                            end={item.path === '/dashboard'} // শুধু ড্যাশবোর্ডের জন্য 'end' প্রপ যাতে অন্যান্য সাব-রাউটে কনফ্লিক্ট না হয়
+                            end={item.path === '/dashboard'}
                             className={({ isActive }) => 
                                 `flex items-center gap-3 px-4 py-3 rounded-xl transform transition-transform ${isActive ? activeClass : inactiveClass}`
                             }

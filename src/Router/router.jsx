@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../Layout/MainLayout";
 import Home from "../Pages/Home/Home";
-import Be_A_Rider from "../Pages/Be A Rider/Be_A_Rider";
 import Errorpage from "../Pages/Errorpage/Errorpage";
 import RiderForm from "../Components/Be A Rider/RiderFrom";
 import Pricing from "../Pages/Pricing/Pricng";
@@ -12,8 +11,9 @@ import Coverage from "../Pages/Coverage/Coverage";
 import SendParcelForm from "../Pages/SendParcelForm/SendParcelForm";
 import Dashboard from "../Pages/DashBoard/DashBorad";
 import DashboardLayout from "../Layout/DashboardLayout";
-import MyOrders from "../Components/Dashborad/MyOrders";
 import MyProfile from "../Components/Dashborad/MyProfile";
+import MyParcel from "../Components/Dashborad/MyParcel";
+import Be_A_Rider from "../Pages/Be A Rider/Be_A_Rider";
 
 export const router = createBrowserRouter([
    {
@@ -68,8 +68,8 @@ export const router = createBrowserRouter([
             Component: Dashboard
          },
          {
-            path: "/dashboard/orders",
-            Component: MyOrders,
+            path: "/dashboard/parcel",
+            Component: MyParcel,
          },
          {
             path: "/dashboard/profile",

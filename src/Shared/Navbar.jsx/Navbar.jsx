@@ -12,10 +12,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navbarItems = [
-    { id: 1, name: "Services", path: "/services" },
+    { id: 1, name: "Home", path: "/" },
     { id: 2, name: "Coverage", path: "/coverage" },
-    { id: 3, name: "About Us", path: "/about" },
-    { id: 4, name: "Pricing", path: "/pricing" },
+    // { id: 3, name: "About Us", path: "/about" },
+    // { id: 4, name: "Pricing", path: "/pricing" },
     { id: 5, name: "Be a Rider", path: "/be-a-rider" },
     { id: 6, name: "Send Parcel", path: "/sendpercelform" },
     { id: 7, name: "Dashboard", path: "/dashboard" },
@@ -120,7 +120,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-primary-black hover:bg-gray-100 rounded-lg transition"
+            className="lg:hidden p-2 text-primary-black hover:bg-gray-100 rounded-lg transition"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >

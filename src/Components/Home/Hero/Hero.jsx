@@ -1,7 +1,7 @@
 import React from "react";
-import tiniDelevaryMan from "../../assets/tiny-deliveryman.png";
-import CornarIcon from "../../assets/cornar-arrow.png";
-import bigDeliveryman from "../../assets/big-deliveryman.png";
+import tiniDelevaryMan from "../../../assets/tiny-deliveryman.png";
+import CornarIcon from "../../../assets/cornar-arrow.png";
+import bigDeliveryman from "../../../assets/big-deliveryman.png";
 
 const Hero = () => {
   return (
