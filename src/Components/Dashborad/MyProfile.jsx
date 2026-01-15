@@ -1,7 +1,10 @@
 import React from "react";
 import { User, Mail, Phone } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
 
 const MyProfile = () => {
+  const {user} = useAuth();
+  console.log(user);
   return (
     <div className="max-w-2xl w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-primary-white">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-black mb-4 sm:mb-6 md:mb-8 text-primary-black uppercase tracking-tight">
@@ -11,14 +14,14 @@ const MyProfile = () => {
       {/* Profile Header */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-primary-white">
         <div className="w-20 sm:w-24 h-20 sm:h-24 shrink-0 bg-primary-green rounded-full flex items-center justify-center text-2xl sm:text-3xl font-black text-primary-black">
-          JD
+         <img className="h-auto w-30 rounded-full" src={user?.photoURL} alt="photo" />
         </div>
         <div className="text-center sm:text-left">
           <h3 className="text-lg sm:text-xl font-extrabold text-primary-black uppercase">
-            John Doe
+            {user?.displayName}
           </h3>
           <p className="text-secondary-black font-medium text-sm sm:text-base">
-            john.doe@example.com
+            {user?.email}
           </p>
         </div>
       </div>
@@ -31,7 +34,7 @@ const MyProfile = () => {
           </label>
           <input
             type="text"
-            defaultValue="John Doe"
+            defaultValue={user?.displayName}
             className="w-full p-2.5 sm:p-3.5 text-sm sm:text-base font-bold text-primary-black rounded-xl border border-primary-white focus:outline-none focus:ring-2 focus:ring-primary-green transition-all bg-gray-50/50"
           />
         </div>
@@ -42,7 +45,7 @@ const MyProfile = () => {
           </label>
           <input
             type="email"
-            defaultValue="john.doe@example.com"
+            defaultValue={user?.email}
             className="w-full p-2.5 sm:p-3.5 text-sm sm:text-base font-bold text-primary-black rounded-xl border border-primary-white focus:outline-none focus:ring-2 focus:ring-primary-green transition-all bg-gray-50/50"
           />
         </div>

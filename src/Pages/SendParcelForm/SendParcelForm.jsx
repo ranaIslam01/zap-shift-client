@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 
 const SendParcelForm = () => {
   const [parcelType, setParcelType] = useState('Document');
@@ -8,6 +9,8 @@ const SendParcelForm = () => {
   const [regions, setRegions] = useState([]);
   const [errors, setErrors] = useState({});
   const axiosSecure = useAxiosSecure();
+  const {user} = useAuth();
+  const userEmail = (user?.email);
   
   const [formData, setFormData] = useState({
     parcelName: '',
@@ -81,7 +84,8 @@ const SendParcelForm = () => {
         ...formData, 
         parcelType,
         status: 'pending',
-        orderDate: new Date() 
+        orderDate: new Date(),
+        created_By: userEmail , 
       };
 
       const response = await axiosSecure.post('/parcels', finalData);
@@ -131,7 +135,10 @@ const SendParcelForm = () => {
   return (
     <div className="min-h-screen bg-white p-4 md:p-10 lg:p-20 font-sans text-primary-black">
       <form onSubmit={handleSubmit} className="max-w-7xl mx-auto space-y-12">
-        
+        <div className='flex flex-col gap-6'>
+          <h1 className='text-primary-black text-4xl md:text-5xl font-bold'>Send A Parcel</h1>
+          <h2 className='text-secondary-black text-xl'>Enter your parcel details</h2>
+        </div>
         {/* Parcel Category & Basics */}
         <section className="space-y-6">
           <div className="flex gap-10 items-center">

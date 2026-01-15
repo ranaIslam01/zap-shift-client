@@ -14,6 +14,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import MyProfile from "../Components/Dashborad/MyProfile";
 import MyParcel from "../Components/Dashborad/MyParcel";
 import Be_A_Rider from "../Pages/Be A Rider/Be_A_Rider";
+import PrivateRoute from "../routes/PrivateRoute";
 
 export const router = createBrowserRouter([
    {
@@ -61,7 +62,9 @@ export const router = createBrowserRouter([
    },
    {
       path: "/dashboard",
-      element: <DashboardLayout></DashboardLayout>,
+      element: <PrivateRoute>
+         <DashboardLayout></DashboardLayout>
+      </PrivateRoute>,
       children: [
          {
             index: true,

@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { Navigate } from 'react-router';
+import { ClipLoader } from 'react-spinners';
 
 const PrivateRoute = ({children}) => {
    const {user,loading} = useAuth();
