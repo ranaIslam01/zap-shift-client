@@ -1,18 +1,20 @@
-import React, { useRef, useState } from "react";
-import { Eye, EyeOff, UserPlus } from "lucide-react";
+import React, { useState } from "react";
+import { Eye, EyeOff, UserPlus, Loader2 } from "lucide-react";
 import authImage from "../../assets/authImage.png";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const SignUP = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || "/";
   const [imagePreview, setImagePreview] = useState(null);
-  const fileInputRef = useRef(null);
 
   const {
     handleSubmit,
@@ -20,10 +22,10 @@ const SignUP = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, signUpGoogle } = useAuth();
+  const { createUser, signUpGoogle, updateUserProfile } = useAuth();
 
   const handleDivClick = () => {
-    fileInputRef.current.click();
+    document.getElementById("fileInput").click();
   };
 
   const handleFileChange = (event) => {
@@ -36,6 +38,9 @@ const SignUP = () => {
           "error",
         );
       }
+
+      setSelectedFile(file);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -43,113 +48,117 @@ const SignUP = () => {
       reader.readAsDataURL(file);
     }
   };
-
   const signUpWithGoogle = () => {
     signUpGoogle()
-      .then((result) => {
-        console.log(result.user);
-        Swal.fire({
-          title: "Success!",
-          text: "Google Sign-In successful.",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        navigate(from);
+      .then(async (result) => {
+        const user = result.user;
+
+        // ১. ডাটাবেজে পাঠানোর জন্য অবজেক্ট তৈরি
+        const newUser = {
+          name: user?.displayName,
+          email: user?.email,
+          image: user?.photoURL,
+          role: "user",
+          created_at: new Date().toISOString(),
+          last_log_in: new Date().toISOString(),
+        };
+
+        try {
+          // ২. Axios দিয়ে আপনার লোকাল সার্ভারে ডেটা পাঠানো
+          const { data } = await axios.post(
+            "http://localhost:3000/users",
+            newUser,
+          );
+
+          // ৩. সাকসেস চেক
+          if (data.insertedId || data.message === "User already exists") {
+            Swal.fire({
+              title: "Success!",
+              text: "Google Sign-In successful and user ensured in DB.",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+            navigate(from);
+          }
+        } catch (dbError) {
+          console.error("Database Save Error:", dbError);
+        }
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Google Auth Error:", error);
         Swal.fire({
           title: "Error!",
           text: "Could not sign in with Google.",
           icon: "error",
-          confirmButtonText: "Close",
         });
       });
   };
 
   const onSubmit = async (data) => {
-    // আপনার স্ক্রিনশট থেকে পাওয়া তথ্য
-    const cloud_name = "dgzuvimw0";
-    const upload_preset = "zapshift_preset";
+    const cloud_name = import.meta.env.VITE_CLOUD_NAME;
+    const upload_preset = import.meta.env.VITE_UPLOAD_PRESET;
+
+    setIsSubmitting(true);
 
     try {
-      const imageFile = fileInputRef.current?.files[0];
+      // এখন আমরা data.image এর বদলে selectedFile ব্যবহার করছি
+      const imageFile = selectedFile;
+
       if (!imageFile) {
+        setIsSubmitting(false);
         return Swal.fire("Error", "Please select a profile photo", "error");
       }
 
-      // ১. Cloudinary-তে ছবি পাঠানো
+      // ১. Cloudinary আপলোড
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("upload_preset", upload_preset);
 
-      const res = await fetch(
+      const imgRes = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        },
+        formData,
       );
 
-      const imgData = await res.json();
+      const photoURL = imgRes.data.secure_url;
 
-      if (!imgData.secure_url) {
-        console.error("Cloudinary Response Error:", imgData);
-        throw new Error(imgData.error?.message || "Image upload failed");
-      }
+      // ২. Firebase User Creation
+      await createUser(data.email, data.password);
 
-      const photoURL = imgData.secure_url; // এটিই আপনার ছবির ফাইনাল লিংক
+      // ৩. Firebase Profile Update
+      await updateUserProfile(data.name, photoURL);
 
-      // ২. Firebase দিয়ে ইউজার তৈরি করা
-      const result = await createUser(data.email, data.password);
-      console.log("Firebase User Created Successfully");
-
-      // ৩. MongoDB-তে পাঠানোর জন্য অবজেক্ট তৈরি করা
+      // ৪. MongoDB User Object
       const newUser = {
         name: data.name,
-        email: data.email,
+        email: data.email.toLowerCase(),
         image: photoURL,
         role: "user",
+        created_at: new Date().toISOString(),
+        last_log_in: new Date().toISOString(),
       };
 
-      // ৪. আপনার লোকাল সার্ভারে ডেটা পাঠানো (Port 3000)
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      // ৫. MongoDB-তে ডাটা পাঠানো
+      const dbRes = await axios.post("http://localhost:3000/users", newUser);
 
-
-      const dbData = await response.json();
-
-      if (dbData.insertedId) {
+      if (
+        dbRes.data.insertedId ||
+        dbRes.data.message === "User already exists"
+      ) {
         Swal.fire({
           title: "Success!",
-          text: "Account created and data saved to MongoDB.",
+          text: "Account created successfully.",
           icon: "success",
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate(from);
+        navigate(from, { replace: true });
       }
     } catch (error) {
-      console.error("Submission Error:", error);
-
-      // Firebase-এ যদি অলরেডি ইউজার থাকে তার এরর হ্যান্ডলিং
-      let errorMessage = error.message;
-      if (errorMessage.includes("email-already-in-use")) {
-        errorMessage = "This email is already in use. Please try another.";
-      }
-
-      Swal.fire({
-        title: "Registration Failed",
-        text: errorMessage,
-        icon: "error",
-        confirmButtonText: "Try Again",
-      });
+      console.error("Error:", error);
+      Swal.fire("Error", "Something went wrong!", "error");
+    } finally {
+      setIsSubmitting(false); // সাকসেস হোক বা এরর, লোডিং বন্ধ হবে
     }
   };
 
@@ -167,13 +176,12 @@ const SignUP = () => {
 
           {/* Profile Upload UI */}
           <div className="mb-6 sm:mb-8 flex flex-col items-start">
-            {/* হিডেন ফাইল ইনপুট */}
             <input
               type="file"
-              ref={fileInputRef}
               onChange={handleFileChange}
               accept="image/*"
               className="hidden"
+              id="fileInput"
             />
 
             <div
@@ -285,9 +293,21 @@ const SignUP = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-primary-green text-primary-black font-bold py-2 sm:py-3 rounded-lg hover:bg-opacity-90 transition text-base sm:text-lg mt-6 sm:mt-8"
+              disabled={isSubmitting}
+              className={`w-full bg-primary-green text-primary-black font-bold py-2 sm:py-3 rounded-lg transition text-base sm:text-lg mt-6 sm:mt-8 flex items-center justify-center gap-2 ${
+                isSubmitting
+                  ? "opacity-70 cursor-not-allowed"
+                  : "hover:bg-opacity-90"
+              }`}
             >
-              Create Account
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" size={20} />
+                  <span>Creating Account...</span>
+                </>
+              ) : (
+                "Create Account"
+              )}
             </button>
           </form>
 

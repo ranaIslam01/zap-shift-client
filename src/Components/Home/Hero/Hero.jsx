@@ -1,16 +1,16 @@
 import React from "react";
-import tiniDelevaryMan from "../../../assets/tiny-deliveryman.png";
+// import tiniDelevaryMan from "../../../assets/tiny-deliveryman.png";
 import CornarIcon from "../../../assets/cornar-arrow.png";
 import bigDeliveryman from "../../../assets/big-deliveryman.png";
 
 const Hero = () => {
   return (
-    <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-10 sm:py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+    <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-10 sm:py-16 md:pb-20 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center h-screen">
       {/* left section  */}
       <section className="flex flex-col gap-6 order-2 md:order-1">
-        <div className="w-16 sm:w-20 md:w-24">
+        {/* <div className="w-16 sm:w-20 md:w-24">
           <img src={tiniDelevaryMan} alt="tinidelevaryman" className="w-full" />
-        </div>
+        </div> */}
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-primary-black font-bold leading-tight md:leading-snug">
           We Make Sure Your{" "}

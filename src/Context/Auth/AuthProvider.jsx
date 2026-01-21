@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 
 const AuthProvider = ({ children }) => {
@@ -18,7 +19,20 @@ const AuthProvider = ({ children }) => {
   const provider = new GoogleAuthProvider();
   const signUpGoogle = () => {
     return signInWithPopup(auth, provider);
-  }
+  };
+  // Update a user's profile
+  const updateUserProfile = (name,photo) => {
+    updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    })
+      .then((result) => {
+        console.log("update proflie ", result);
+      })
+      .catch((error) => {
+        console.log("update profile", error);
+      });
+  };
 
   // Create user
   const createUser = (email, password) => {
@@ -32,7 +46,7 @@ const AuthProvider = ({ children }) => {
   };
   //Sign Out user
   const signOutUser = () => {
-     setLoading(true)
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -43,8 +57,8 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
     return () => {
-      unSubscribe()
-    }
+      unSubscribe();
+    };
   }, []);
 
   const authInfo = {
@@ -52,6 +66,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     signOutUser,
     signUpGoogle,
+    updateUserProfile,
     user,
     loading,
   };
