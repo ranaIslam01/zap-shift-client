@@ -1,21 +1,48 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
 import authImage from "../../assets/authImage.png";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const SignUP = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
+
   const { createUser, signUpGoogle } = useAuth();
+
+  const handleDivClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        return Swal.fire(
+          "Error",
+          "Image size should be less than 5MB",
+          "error",
+        );
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const signUpWithGoogle = () => {
     signUpGoogle()
@@ -28,7 +55,7 @@ const SignUP = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         console.error(error);
@@ -41,36 +68,89 @@ const SignUP = () => {
       });
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    // আপনার স্ক্রিনশট থেকে পাওয়া তথ্য
+    const cloud_name = "dgzuvimw0";
+    const upload_preset = "zapshift_preset";
 
-    createUser(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log("Registered User:", user);
+    try {
+      const imageFile = fileInputRef.current?.files[0];
+      if (!imageFile) {
+        return Swal.fire("Error", "Please select a profile photo", "error");
+      }
 
+      // ১. Cloudinary-তে ছবি পাঠানো
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("upload_preset", upload_preset);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const imgData = await res.json();
+
+      if (!imgData.secure_url) {
+        console.error("Cloudinary Response Error:", imgData);
+        throw new Error(imgData.error?.message || "Image upload failed");
+      }
+
+      const photoURL = imgData.secure_url; // এটিই আপনার ছবির ফাইনাল লিংক
+
+      // ২. Firebase দিয়ে ইউজার তৈরি করা
+      const result = await createUser(data.email, data.password);
+      console.log("Firebase User Created Successfully");
+
+      // ৩. MongoDB-তে পাঠানোর জন্য অবজেক্ট তৈরি করা
+      const newUser = {
+        name: data.name,
+        email: data.email,
+        image: photoURL,
+        role: "user",
+      };
+
+      // ৪. আপনার লোকাল সার্ভারে ডেটা পাঠানো (Port 3000)
+      const response = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+
+      const dbData = await response.json();
+
+      if (dbData.insertedId) {
         Swal.fire({
           title: "Success!",
-          text: "Your account has been created successfully.",
+          text: "Account created and data saved to MongoDB.",
           icon: "success",
-          confirmButtonColor: "#3085d6",
-          confirmButtonText: "Okay",
+          timer: 1500,
+          showConfirmButton: false,
         });
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Error Code:", errorCode);
+        navigate(from);
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
 
-        Swal.fire({
-          title: "Registration Failed",
-          text: errorMessage,
-          icon: "error",
-          confirmButtonColor: "#d33",
-          confirmButtonText: "Try Again",
-        });
+      // Firebase-এ যদি অলরেডি ইউজার থাকে তার এরর হ্যান্ডলিং
+      let errorMessage = error.message;
+      if (errorMessage.includes("email-already-in-use")) {
+        errorMessage = "This email is already in use. Please try another.";
+      }
+
+      Swal.fire({
+        title: "Registration Failed",
+        text: errorMessage,
+        icon: "error",
+        confirmButtonText: "Try Again",
       });
+    }
   };
 
   return (
@@ -85,14 +165,39 @@ const SignUP = () => {
             Register with ZapShift
           </p>
 
-          {/* Profile Upload Icon */}
-          <div className="mb-6 sm:mb-8 flex">
-            <div className="w-12 sm:w-14 h-12 sm:h-14 bg-gray-100 rounded-full flex items-center justify-center border border-gray-200 cursor-pointer hover:bg-gray-200 transition">
-              <UserPlus className="text-gray-400 w-6 sm:w-7 h-6 sm:h-7" />
-              <div className="absolute ml-8 sm:ml-10 mt-6 sm:mt-8 bg-primary-green rounded-full p-1 border-2 border-white">
-                <div className="w-1 h-1 bg-white"></div>
+          {/* Profile Upload UI */}
+          <div className="mb-6 sm:mb-8 flex flex-col items-start">
+            {/* হিডেন ফাইল ইনপুট */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+
+            <div
+              onClick={handleDivClick}
+              className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-200 transition active:scale-95 overflow-visible"
+            >
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <UserPlus className="text-gray-400 w-7 h-7" />
+              )}
+
+              {/* প্লাস আইকন ইন্ডিকেটর */}
+              <div className="absolute -right-1 -bottom-1 bg-primary-green rounded-full p-1 border-2 border-white shadow-sm">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
               </div>
             </div>
+            <span className="text-xs text-gray-500 mt-2 font-medium">
+              Upload Photo
+            </span>
           </div>
 
           <form

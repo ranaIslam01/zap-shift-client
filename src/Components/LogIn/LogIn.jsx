@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import authImage from "../../assets/authImage.png";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || '/';
+  const { signUpGoogle } = useAuth();
+  const { signInUser } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signUpGoogle } = useAuth();
-  const { signInUser } = useAuth();
-  const navigate = useNavigate();
 
   const signUpWithGoogle = () => {
     signUpGoogle()
@@ -28,7 +31,7 @@ const Login = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         console.error(error);
@@ -53,7 +56,7 @@ const Login = () => {
           showConfirmButton: false,
         });
         setTimeout(() => {
-          navigate("/");
+          navigate(from);
         }, 1500);
       })
       .catch((error) => {

@@ -68,7 +68,7 @@ const MyParcel = () => {
     <div className="w-full bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-primary-white">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-extrabold text-primary-black tracking-tight">
-          My Parces
+          My Parcels
         </h2>
         <button className="flex items-center gap-2 bg-primary-green text-primary-black px-4 py-2 rounded-lg font-bold hover:bg-opacity-90 transition-all">
           <Download size={18} />
