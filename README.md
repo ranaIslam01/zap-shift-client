@@ -1,39 +1,39 @@
 # Zap Shift - Client
 
-একটি আধুনিক পার্সেল ডেলিভারি এবং লজিস্টিক্স প্ল্যাটফর্ম যা React এর মাধ্যমে তৈরি, যা গ্রাহক এবং রাইডার উভয়ের জন্য নিরবচ্ছিন্ন সেবা প্রদান করে।
+A modern parcel delivery and logistics platform built with React that provides seamless service for both customers and riders.
 
-## 🚀 বৈশিষ্ট্য
+## 🚀 Features
 
-- **ব্যবহারকারী প্রমাণীকরণ**: Firebase সহ নিরাপদ লগইন এবং নিবন্ধন সিস্টেম
-- **পার্সেল ম্যানেজমেন্ট**: সহজেই পার্সেল পাঠান, ট্র্যাক করুন এবং পরিচালনা করুন
-- **রাইডার ড্যাশবোর্ড**: ডেলিভারি রাইডারদের জন্য অর্ডার ম্যানেজমেন্ট সহ ব্যাপক ড্যাশবোর্ড
-- **ব্যবহারকারী প্রোফাইল**: ব্যবহারকারীর তথ্য এবং পছন্দগুলি পরিচালনা করুন
-- **সেবা কভারেজ**: সেবা এলাকা এবং কভারেজ জোন দেখুন
-- **মূল্য তথ্য**: বিভিন্ন সেবার জন্য স্বচ্ছ মূল্য বিবরণ
-- **রিয়েল-টাইম ট্র্যাকিং**: পার্সেল ট্র্যাকিংয়ের জন্য মানচিত্র একীকরণ
-- **প্রতিক্রিয়াশীল ডিজাইন**: ডেস্কটপ এবং মোবাইল ডিভাইসের জন্য সম্পূর্ণ প্রতিক্রিয়াশীল UI
+- **User Authentication**: Secure login and registration system with Firebase
+- **Parcel Management**: Easily send, track, and manage parcels
+- **Rider Dashboard**: Comprehensive dashboard with order management for delivery riders
+- **User Profile**: Manage user information and preferences
+- **Service Coverage**: View service areas and coverage zones
+- **Pricing Information**: Transparent pricing details for various services
+- **Real-Time Tracking**: Map integration for parcel tracking
+- **Responsive Design**: Fully responsive UI for desktop and mobile devices
 
-## 📋 পূর্বশর্ত
+## 📋 Prerequisites
 
-- Node.js (v14 বা তার বেশি)
-- npm বা yarn প্যাকেজ ম্যানেজার
+- Node.js (v14 or higher)
+- npm or yarn package manager
 
-## 🔧 ইনস্টলেশন
+## 🔧 Installation
 
-1. রিপোজিটরি ক্লোন করুন:
+1. Clone the repository:
 
 ```bash
 git clone <repository-url>
 cd Zap-Shift-Client
 ```
 
-2. নির্ভরতা ইনস্টল করুন:
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. রুট ডিরেক্টরিতে একটি `.env` ফাইল তৈরি করুন এবং আপনার Firebase কনফিগারেশন যোগ করুন:
+3. Create a `.env` file in the root directory and add your Firebase configuration:
 
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
@@ -44,47 +44,47 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 ```
 
-## 🏃 প্রজেক্ট চালানো
+## 🏃 Running the Project
 
-### ডেভেলপমেন্ট মোড
+### Development Mode
 
 ```bash
 npm run dev
 ```
 
-অ্যাপ্লিকেশন `http://localhost:5173` এ শুরু হবে
+The application will start at `http://localhost:5173`
 
-### প্রোডাকশনের জন্য বিল্ড করুন
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-### প্রোডাকশন বিল্ড প্রিভিউ করুন
+### Preview Production Build
 
 ```bash
 npm run preview
 ```
 
-## 📁 প্রজেক্ট কাঠামো
+## 📁 Project Structure
 
 ```
 src/
-├── Components/          # পুনর্ব্যবহারযোগ্য React উপাদান
-│   ├── Be A Rider/     # রাইডার নিবন্ধন উপাদান
-│   ├── Dashborad/      # ড্যাশবোর্ড উপাদান
-│   ├── Home/           # হোম পেজ উপাদান
-│   ├── LoadingSpinner/ # লোডিং সূচক
-│   ├── LogIn/          # লগইন উপাদান
-│   ├── MapComponent/   # মানচিত্র একীকরণ
-│   └── SignUp/         # নিবন্ধন উপাদান
-├── Context/            # অবস্থা ব্যবস্থাপনার জন্য React Context
-│   └── Auth/           # প্রমাণীকরণ context
-├── hooks/              # কাস্টম React hooks
-│   ├── useAuth.jsx     # প্রমাণীকরণ hook
+├── Components/          # Reusable React components
+│   ├── Be A Rider/     # Rider registration components
+│   ├── Dashborad/      # Dashboard components
+│   ├── Home/           # Home page components
+│   ├── LoadingSpinner/ # Loading indicator
+│   ├── LogIn/          # Login component
+│   ├── MapComponent/   # Map integration
+│   └── SignUp/         # Registration component
+├── Context/            # React Context for state management
+│   └── Auth/           # Authentication context
+├── hooks/              # Custom React hooks
+│   ├── useAuth.jsx     # Authentication hook
 │   ├── useAxios.jsx    # Axios hook
-│   └── useAxiosSecure.jsx # নিরাপদ axios hook
-├── Pages/              # পেজ উপাদান
+│   └── useAxiosSecure.jsx # Secure axios hook
+├── Pages/              # Page components
 │   ├── About/
 │   ├── Be A Rider/
 │   ├── Coverage/
@@ -93,27 +93,27 @@ src/
 │   ├── Pricing/
 │   ├── SendParcelForm/
 │   └── Errorpage/
-├── Layout/             # লেআউট উপাদান
-├── Router/             # রুট কনফিগারেশন
-├── firebase/           # Firebase কনফিগারেশন
-├── assets/             # স্ট্যাটিক এসেট
-└── main.jsx           # অ্যাপ্লিকেশন এন্ট্রি পয়েন্ট
+├── Layout/             # Layout components
+├── Router/             # Route configuration
+├── firebase/           # Firebase configuration
+├── assets/             # Static assets
+└── main.jsx           # Application entry point
 ```
 
-## 🛠️ প্রযুক্তি ব্যবহৃত
+## 🛠️ Technologies Used
 
-- **ফ্রন্টএন্ড ফ্রেমওয়ার্ক**: React 18+
-- **বিল্ড টুল**: Vite
-- **স্টাইলিং**: CSS3
-- **অবস্থা ব্যবস্থাপনা**: React Context API
-- **প্রমাণীকরণ**: Firebase
-- **HTTP ক্লায়েন্ট**: Axios
-- **মানচিত্র**: মানচিত্র একীকরণ উপাদান
-- **রুটিং**: React Router
+- **Frontend Framework**: React 18+
+- **Build Tool**: Vite
+- **Styling**: CSS3
+- **State Management**: React Context API
+- **Authentication**: Firebase
+- **HTTP Client**: Axios
+- **Mapping**: Map integration component
+- **Routing**: React Router
 
-## 📦 নির্ভরতা
+## 📦 Dependencies
 
-এই প্রজেক্টে ব্যবহৃত মূল প্যাকেজ:
+Main packages used in this project:
 
 - react
 - react-router-dom
@@ -121,9 +121,9 @@ src/
 - axios
 - vite
 
-## 🔐 পরিবেশ পরিবর্তন
+## 🔐 Environment Variables
 
-নিম্নলিখিত পরিবর্তন সহ একটি `.env` ফাইল তৈরি করুন:
+Create a `.env` file with the following variables:
 
 ```env
 VITE_FIREBASE_API_KEY
@@ -134,62 +134,62 @@ VITE_FIREBASE_MESSAGING_SENDER_ID
 VITE_FIREBASE_APP_ID
 ```
 
-## 📱 পৃষ্ঠা এবং রুট
+## 📱 Pages and Routes
 
-- `/` - হোম পেজ
-- `/about` - সম্পর্কে পৃষ্ঠা
-- `/coverage` - সেবা কভারেজ
-- `/pricing` - মূল্য তথ্য
-- `/be-a-rider` - রাইডার নিবন্ধন
-- `/send-parcel` - পার্সেল ডেলিভারি ফর্ম
-- `/dashboard` - ব্যবহারকারী/রাইডার ড্যাশবোর্ড
-- `/login` - ব্যবহারকারী লগইন
-- `/signup` - ব্যবহারকারী নিবন্ধন
+- `/` - Home page
+- `/about` - About page
+- `/coverage` - Service coverage
+- `/pricing` - Pricing information
+- `/be-a-rider` - Rider registration
+- `/send-parcel` - Parcel delivery form
+- `/dashboard` - User/Rider dashboard
+- `/login` - User login
+- `/signup` - User registration
 
-## 🎨 বৈশিষ্ট্য সংক্ষিপ্তকরণ
+## 🎨 Features Summary
 
-### হোম পেজ
+### Home Page
 
-- হিরো সেকশন সহ কল-টু-অ্যাকশন
-- সেবা হাইলাইট
-- এটি কীভাবে কাজ করে বিভাগ
-- প্রশংসাপত্র
-- FAQ বিভাগ
-- বিক্রয় দল তথ্য
+- Hero section with call-to-action
+- Service highlights
+- How it works section
+- Testimonials
+- FAQ section
+- Sales team information
 
-### ড্যাশবোর্ড
+### Dashboard
 
-- পার্সেল ব্যবস্থাপনা
-- ব্যবহারকারী প্রোফাইল ব্যবস্থাপনা
-- রাইডার বিবরণ
-- সাম্প্রতিক অর্ডার ট্র্যাকিং
-- পরিসংখ্যান কার্ড
+- Parcel management
+- User profile management
+- Rider details
+- Recent order tracking
+- Statistics cards
 
-### রাইডার বৈশিষ্ট্য
+### Rider Features
 
-- নিবন্ধন ফর্ম
-- আয়ের তথ্য
-- অর্ডার ব্যবস্থাপনা
-- প্রোফাইল ব্যবস্থাপনা
+- Registration form
+- Earning information
+- Order management
+- Profile management
 
-## 🤝 অবদান রাখুন
+## 🤝 Contributing
 
-অবদান স্বাগত! অনুগ্রহ করে এই পদক্ষেপগুলি অনুসরণ করুন:
+Contributions are welcome! Please follow these steps:
 
-1. রিপোজিটরি ফর্ক করুন
-2. একটি বৈশিষ্ট্য শাখা তৈরি করুন (`git checkout -b feature/AmazingFeature`)
-3. আপনার পরিবর্তনগুলি প্রতিশ্রুতিবদ্ধ করুন (`git commit -m 'Add AmazingFeature'`)
-4. শাখায় পুশ করুন (`git push origin feature/AmazingFeature`)
-5. একটি পুল রিকোয়েস্ট খুলুন
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 লাইসেন্স
+## 📄 License
 
-এই প্রজেক্ট MIT লাইসেন্সের অধীন - বিস্তারিত জানার জন্য লাইসেন্স ফাইল দেখুন।
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👨‍💼 সহায়তা
+## 👨‍💼 Support
 
-সহায়তার জন্য, অনুগ্রহ করে উন্নয়ন দলের সাথে যোগাযোগ করুন বা রিপোজিটরিতে একটি সমস্যা খুলুন।
+For support, please contact the development team or open an issue in the repository.
 
 ---
 
-**হ্যাপি কোডিং! 🚀**
+**Happy Coding! 🚀**
