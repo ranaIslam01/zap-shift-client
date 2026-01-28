@@ -12,16 +12,25 @@ const MyParcel = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  const fetchData = async () => {
-    try {
-      const res = await axiosSecure.get(`/parcels?email=${user.email}`);
-      setParcels(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error Fetching Parcels", error);
-      setLoading(false);
-    }
-  };
+ const fetchData = async () => {
+  try {
+    // ১. Firebase থেকে একদম ফ্রেশ টোকেন নিন
+    const token = await user.getIdToken(); 
+
+    const res = await axiosSecure.get(`/parcels?email=${user.email}`, {
+      headers: {
+        // ২. এই ফ্রেশ টোকেনটি হেডারে পাঠান
+        Authorization: `Bearer ${token}`
+      }
+    });
+    
+    setParcels(res.data);
+    setLoading(false);
+  } catch (error) {
+    console.error("Error Fetching Parcels", error);
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchData();

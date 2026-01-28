@@ -52,6 +52,7 @@ const SignUP = () => {
     signUpGoogle()
       .then(async (result) => {
         const user = result.user;
+        console.log(user);
 
         // ১. ডাটাবেজে পাঠানোর জন্য অবজেক্ট তৈরি
         const newUser = {
@@ -123,7 +124,14 @@ const SignUP = () => {
       const photoURL = imgRes.data.secure_url;
 
       // ২. Firebase User Creation
-      await createUser(data.email, data.password);
+     await createUser(data.email, data.password)
+     .then(result => {
+      console.log(result);
+     })
+     .catch(error => {
+      console.log("user created", error);
+     })
+      
 
       // ৩. Firebase Profile Update
       await updateUserProfile(data.name, photoURL);

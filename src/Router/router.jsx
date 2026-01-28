@@ -15,6 +15,7 @@ import MyProfile from "../Components/Dashborad/MyProfile";
 import MyParcel from "../Components/Dashborad/MyParcel";
 import Be_A_Rider from "../Pages/Be A Rider/Be_A_Rider";
 import PrivateRoute from "../routes/PrivateRoute";
+import RidersTable from "../Components/Dashborad/RidersTable";
 
 export const router = createBrowserRouter([
    {
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
          {
             path: "/dashboard/parcel",
             Component: MyParcel,
+         },
+         {
+            path: "/dashboard/riders",
+            Component: RidersTable,
          },
          {
             path: "/dashboard/profile",

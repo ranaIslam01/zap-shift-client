@@ -2,6 +2,7 @@ import React from "react";
 // import tiniDelevaryMan from "../../../assets/tiny-deliveryman.png";
 import CornarIcon from "../../../assets/cornar-arrow.png";
 import bigDeliveryman from "../../../assets/big-deliveryman.png";
+import { Link } from "react-router";
 
 const Hero = () => {
   return (
@@ -25,7 +26,7 @@ const Hero = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <div className="flex cursor-pointer hover:opacity-90 transition w-full sm:w-auto">
+          <Link to='/sendpercelform' className="flex cursor-pointer hover:opacity-90 transition w-full sm:w-auto">
             <button className="text-primary-black bg-primary-green cursor-pointer px-4 sm:px-5 rounded-xl md:rounded-2xl py-2 md:py-3 font-medium text-sm sm:text-base md:text-lg border border-primary-white hover:bg-opacity-90 transition w-full sm:w-auto">
               Track Your Parcel
             </button>
@@ -34,11 +35,13 @@ const Hero = () => {
               src={CornarIcon}
               alt="cornar arrow"
             />
-          </div>
+          </Link>
 
-          <button className="text-primary-black cursor-pointer px-4 sm:px-5 rounded-xl md:rounded-2xl py-2 md:py-3 font-medium text-sm sm:text-base md:text-lg border border-primary-white hover:bg-gray-100 transition w-full sm:w-auto">
-            Be A Rider
-          </button>
+          <Link to="/be-a-rider">
+            <button className="text-primary-black cursor-pointer px-4 sm:px-5 rounded-xl md:rounded-2xl py-2 md:py-3 font-medium text-sm sm:text-base md:text-lg border border-primary-white hover:bg-gray-100 transition w-full sm:w-auto">
+              Be A Rider
+            </button>
+          </Link>
         </div>
 
         <div className="flex gap-3 py-4">

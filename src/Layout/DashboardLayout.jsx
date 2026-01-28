@@ -8,6 +8,7 @@ import {
   User,
   LogOut,
   Home,
+  Motorbike,
 } from "lucide-react";
 import zapshiftLogo from "../assets/logo.png";
 import Swal from "sweetalert2";
@@ -31,6 +32,11 @@ const DashboardLayout = () => {
       name: "My Parcel",
       path: "/dashboard/parcel",
       icon: <ShoppingBag size={20} />,
+    },
+    {
+      name: "Riders",
+      path: "/dashboard/riders",
+      icon: <Motorbike size={20} />,
     },
     { name: "Profile", path: "/dashboard/profile", icon: <User size={20} /> },
   ];

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import agent from '../../assets/agent-pending.png';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const BeARider = () => {
   const [serviceData, setServiceData] = useState([]);
   const [regions, setRegions] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const axiosSecure = useAxiosSecure();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -72,6 +74,14 @@ const BeARider = () => {
       console.log("Submitted Data:", formData);
       alert("Registration Successful!");
     }
+
+    axiosSecure.post("/riders", formData )
+    .then(result => {
+      console.log("riders creted",result.data);
+    })
+    .catch(error => {
+      console.log("riders create error",error);
+    })
   };
 
   return (

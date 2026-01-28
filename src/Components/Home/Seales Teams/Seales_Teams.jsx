@@ -36,8 +36,8 @@ const Seales_Teams = () => {
   const brands = [casio, amazon, monster, star, startPeople, randstand];
 
   return (
-    <div>
-      <div className="py-8 sm:py-10 md:py-16 px-4 sm:px-6 md:px-10">
+    <div className="px-10 md:px-20">
+      <div className="py-8 sm:py-10 md:py-16 px-4 sm:px-6 md:px-30">
         <h1 className="text-primary-black text-xl sm:text-2xl md:text-3xl text-center font-semibold mb-6 sm:mb-10 md:mb-12">
           We've helped thousands of sales teams
         </h1>
